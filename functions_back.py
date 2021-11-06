@@ -5,11 +5,16 @@ import numpy as np
 from datetime import datetime
 import mysql.connector
 import sys
-print('here')
-mydb = mysql.connector.connect(host='34.66.84.254',
-                               user='root',
-                               password='illini799',
-                               database='test')
+with open('config.txt', 'r') as f:
+    HOST = f.readline().strip()
+    USER = f.readline().strip()
+    PASSWORD = f.readline().strip()
+    DATABASE = f.readline().strip()
+
+mydb = mysql.connector.connect(host=HOST,
+                               user=USER,
+                               password=PASSWORD,
+                               database=DATABASE)
 print('here2')
 subquery1 = ("SELECT streetEWID FROM Statistics s JOIN Intersection i on s.statisticsID = i.intersectionID WHERE lightingRating >= 8.0")
 subquery2 = ("SELECT streetNSID FROM Statistics s JOIN Intersection i on s.statisticsID = i.intersectionID WHERE lightingRating >= 8.0")
