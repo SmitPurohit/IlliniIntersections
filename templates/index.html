@@ -12,11 +12,160 @@
 </head>
 
 <body id="body">
-    <input type="text" id="intersection" placeholder="Enter NS Street Here">
-    <input type="text" id="intersection" placeholder="Enter EW Street Here">
-    <button type="button">
-      OK
-    </button>
+    <div id="intersectionSelection">
+        <input type="text" id="intersection" placeholder="Enter NS Street Here">
+        <input type="text" id="intersection" placeholder="Enter EW Street Here">
+        <input type="submit" value="OK">
+    </div>
+    <div id="reviews">
+        <h2 id="intersectionName">
+            Intersection Name
+        </h2>
+
+        <h3>
+            Reviews
+        </h3>
+
+        <h4>
+            Overall Rating:
+        </h4>
+
+        <p id="overallRating">
+        </p>
+
+        <h4>
+            Lighting Rating:
+        </h4>
+
+        <p id="lightingRating">
+        </p>
+
+        <h4>
+            Quality Rating:
+        </h4>
+
+        <p id="qualityRating">
+
+        </p>
+
+        <h4>
+            Traffic Rating:
+        </h4>
+
+        <p id="trafficRating">
+
+        </p>
+
+        <h4>
+           Visual Appeal:
+        </h4>
+
+        <p id="VisualAppeal">
+
+        </p>
+        <h4>
+            Views
+        </h4>
+        <img src="" alt="view" id="view">
+        <br>
+
+        <h3>
+            Add a Review
+        </h3>
+        <form id="addReview">
+            <h4>
+                Lighting Rating
+            </h4>
+            <select id="addReviewLighting">
+                <option value=""></option>
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+                <option value=5>5</option>
+                <option value=6>6</option>
+                <option value=7>7</option>
+                <option value=8>8</option>
+                <option value=9>9</option>
+                <option value=10>10</option>
+            </select>
+            <h4>
+                Road Quality Rating
+            </h4>
+            <select id="addReviewQuality">
+                <option value=""></option>
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+                <option value=5>5</option>
+                <option value=6>6</option>
+                <option value=7>7</option>
+                <option value=8>8</option>
+                <option value=9>9</option>
+                <option value=10>10</option>
+            </select>
+            <h4>
+                Traffic Rating
+            </h4>
+            <select id="addReviewTraffic">
+                <option value=""></option>
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+                <option value=5>5</option>
+                <option value=6>6</option>
+                <option value=7>7</option>
+                <option value=8>8</option>
+                <option value=9>9</option>
+                <option value=10>10</option>
+            </select>
+            <h4>
+                Visual Appeal Rating
+            </h4>
+            <select id="addReviewVisualAppeal">
+                <option value=""></option>
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+                <option value=5>5</option>
+                <option value=6>6</option>
+                <option value=7>7</option>
+                <option value=8>8</option>
+                <option value=9>9</option>
+                <option value=10>10</option>
+            </select>
+            <h4>
+                Comments:
+            </h4>
+            <input type="text" id="commentsInput">
+            <br> <br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div id="deleteReview">
+        <h3>
+            Delete Review
+        </h3>
+    </div>
+    <div id="Query1">
+
+            <h3>
+                Query 1:
+            </h3>
+            <input type="button" value="Run Query 1">
+
+    </div>
+    <div id="Query2">
+
+            <h3>
+                Query 1:
+            </h3>
+            <input type="button" value="Run Query 2">
+
+    </div>
 </body>
 
 </html>
