@@ -12,9 +12,19 @@ def home():
     if request.method == 'POST':
         street_ew = request.form['ew']
         street_ns = request.form['ns']
-        intersectionID, comments, overallRating, visualAppeal = get_intersection_info(street_ew, street_ns)
-        print(intersectionID, comments, overallRating, visualAppeal)
-        return render_template('index.html')
+        intersectionID, comments, overallRating, visualAppeal, lightingRating, qualityRating, trafficRating, views = get_intersection_info(street_ew, street_ns)
+        #print(intersectionID, comments, overallRating, visualAppeal)
+        return render_template('index.html',
+                                IntersectionNameEW=street_ew,
+                                IntersectionNameNS=street_ns,
+                                comments = comments,
+                                overallRating = overallRating,
+                                visualAppeal = visualAppeal,
+                                lightingRating = lightingRating,
+                                qualityRating = qualityRating,
+                                trafficRating = trafficRating,
+                                viewURL = views
+                                )
     else:
         return render_template('index.html')
 

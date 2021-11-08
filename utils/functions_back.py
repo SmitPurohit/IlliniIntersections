@@ -36,7 +36,7 @@ def get_intersection_info(ew_name, ns_name):
                  f"FROM Intersection "
                  f"WHERE streetEWID = ({streetEW_q}) AND streetNSID = ({streetNS_q})")
 
-    intersectionData_q = (f"SELECT intersectionID, comments, overallRating, visualAppeal "
+    intersectionData_q = (f"SELECT intersectionID, comments, overallRating, visualAppeal, lightingRating, qualityRating, trafficRating, views "
                         f"FROM Intersection NATURAL JOIN Reviews "
                         f"WHERE intersectionID = ({intersectionID_q})")
 
@@ -46,8 +46,8 @@ def get_intersection_info(ew_name, ns_name):
     result = cursor.fetchall()
     for x in result:
         print(x)
-    intersectionID, comments, overallRating, visualAppeal = result[0]
-    return intersectionID, comments, overallRating, visualAppeal
+    intersectionID, comments, overallRating, visualAppeal, lightingRating, qualityRating, trafficRating, views= result[0]
+    return intersectionID, comments, overallRating, visualAppeal, lightingRating, qualityRating, trafficRating, views
 
 
 

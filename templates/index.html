@@ -9,6 +9,7 @@
 </header>
 
 <link rel="stylesheet" type="text/css" href="styles.css">
+<script src="scripts.js"></script>
 </head>
 
 <body id="body">
@@ -16,13 +17,13 @@
             <div id="intersectionSelection">
                 <input type="text" name='ew' id="intersection" placeholder="Enter EW Street Here">
                 <input type="text" name='ns' id="intersection" placeholder="Enter NS Street Here">
-                <input type="submit" value="OK">
+                <input type="submit" value="OK" onclick="showReviews()">
             </div>
     </form>  
 
-    <div id="reviews">
+    <div id="reviews" style="display:''">
         <h2 id="intersectionName">
-            Intersection Name
+           {{IntersectionNameEW}} & {{IntersectionNameNS}}
         </h2>
 
         <h3>
@@ -34,6 +35,7 @@
         </h4>
 
         <p id="overallRating">
+            {{overallRating}}
         </p>
 
         <h4>
@@ -41,6 +43,7 @@
         </h4>
 
         <p id="lightingRating">
+            {{lightingRating}}
         </p>
 
         <h4>
@@ -48,7 +51,7 @@
         </h4>
 
         <p id="qualityRating">
-
+            {{qualityRating}}
         </p>
 
         <h4>
@@ -56,7 +59,7 @@
         </h4>
 
         <p id="trafficRating">
-
+            {{trafficRating}}
         </p>
 
         <h4>
@@ -64,12 +67,18 @@
         </h4>
 
         <p id="VisualAppeal">
-
+            {{visualAppeal}}
         </p>
         <h4>
             Views
         </h4>
-        <img src="" alt="view" id="view">
+        <img src={{viewURL}} alt="view" id="view">
+        <h4>
+            Comments
+        </h4>
+        <p id="Comments">
+            {{comments}}
+        </p>
         <br>
 
         <h3>
