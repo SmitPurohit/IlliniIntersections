@@ -7,8 +7,8 @@ import mysql.connector
 import sys
 
 
-def main():
-    with open('../config.txt', 'r') as f:
+def authenticate():
+    with open('./config.txt', 'r') as f:
         HOST = f.readline().strip()
         USER = f.readline().strip()
         PASSWORD = f.readline().strip()
@@ -18,12 +18,11 @@ def main():
                                    user=USER,
                                    password=PASSWORD,
                                    database=DATABASE)
-    # advanced_queries(mydb)
-    get_intersection_info(mydb, 'Gary Highway', 'Neal Shore')
-
+    return mydb
 
 # return the intersection info for these two streets
-def get_intersection_info(database, ew_name, ns_name):
+def get_intersection_info(ew_name, ns_name):
+    database = authenticate()
     # Returns streetID
     streetEW_q = (f"SELECT streetid "
                  f"FROM Street "
@@ -70,7 +69,3 @@ def advanced_queries(database):
     result = cursor.fetchall()
     for x in result:
         print(x)
-
-
-if __name__ == "__main__":
-    main()
