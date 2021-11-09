@@ -19,7 +19,25 @@ def authenticate():
                                    password=PASSWORD,
                                    database=DATABASE)
     return mydb
+def runQuery1():
+    database = authenticate()
+    query1 = ("SELECT name, direction FROM Street WHERE streetID in ((SELECT streetEWID FROM Statistics s JOIN Intersection i on s.statisticsID = i.intersectionID WHERE lightingRating >= 8.0) UNION (SELECT streetNSID FROM Statistics s JOIN Intersection i on s.statisticsID = i.intersectionID WHERE lightingRating >= 8.0)) GROUP BY name, direction")
 
+
+    cursor = database.cursor()
+    cursor.execute(query1)
+    result = cursor.fetchall()
+    return result
+
+def runQuery2():
+    database = authenticate()
+    query1 = ("SELECT r.intersectionID, ABS(r.qualityRating - s.roadQuality) AS Difference, AVG(r.overallRating) AS AverageOverallRating FROM Reviews r JOIN Statistics s on r.intersectionID = s.statisticsID WHERE intersectionID in ( SELECT r.intersectionID FROM Reviews r JOIN Statistics s on r.intersectionID = s.statisticsID WHERE ABS(r.qualityRating - s.roadQuality) <= 1.0) GROUP BY r.intersectionID, Difference ORDER BY Difference")
+
+
+    cursor = database.cursor()
+    cursor.execute(query1)
+    result = cursor.fetchall()
+    return result
 # return the intersection info for these two streets
 def get_intersection_info(ew_name, ns_name):
     database = authenticate()
@@ -50,22 +68,3 @@ def get_intersection_info(ew_name, ns_name):
     return intersectionID, comments, overallRating, visualAppeal, lightingRating, qualityRating, trafficRating, views
 
 
-
-def advanced_queries(database):
-    subquery1 = ("SELECT streetEWID "
-                 "FROM Statistics s JOIN Intersection i on s.statisticsID = i.intersectionID "
-                 "WHERE lightingRating >= 8.0")
-    subquery2 = ("SELECT streetNSID "
-                 "FROM Statistics s JOIN Intersection i on s.statisticsID = i.intersectionID "
-                 "WHERE lightingRating >= 8.0")
-
-    cursor = database.cursor()
-    cursor.execute(
-        f"SELECT name, direction FROM Street "
-        f"WHERE streetID IN ({subquery1} UNION {subquery2}) "
-        f"GROUP BY name, direction "
-        f"LIMIT 15; "
-    )
-    result = cursor.fetchall()
-    for x in result:
-        print(x)
