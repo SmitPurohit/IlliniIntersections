@@ -10,7 +10,7 @@ app.config['SECRET_KEY'] = 'thecodex'
 @app.route('/home', methods=['POST', 'GET'])
 def home():
     if request.method == 'POST':
-        # create a new review
+        # Insert Reviews
         if "add_review_submit" in request.form:
             intersection_id = request.form.get('intersection_review_id')
             lighting_review = request.form.get('lighting_review')
@@ -21,7 +21,12 @@ def home():
             insert_review(intersection_id, lighting_review, quality_review, traffic_review, va_review, comments)
             return render_template('index.html')
 
-
+        # Update Reviews
+        if "update_submit" in request.form:
+            review_number = request.form.get('reviewNum')
+            new_comment = request.form.get('updateField')
+            update_review(review_number, new_comment)
+            return render_template('index.html')
         # advanced queries
         if "runQuery1" in request.form:
             return render_template('index.html', resultQuery1 = runQuery1())

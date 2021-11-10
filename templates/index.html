@@ -179,14 +179,14 @@
         <h3>
             Update Review
         </h3>
-        <form id="updateReviewForm">
-            <label for="reviewNum">Enter Review Number:</label><br>
-            <input type="text" id="reviewNum" name="reviewNum"><br>
+        <form id="updateReviewForm" method="post">
+            <label for="reviewNumber">Enter Review Number:</label><br>
+            <input type="text" id="reviewNumber" name="reviewNumber"><br>
             {{reviewUpdate}}
             <br>
             <label for="updateField">New Comments:</label><br>
             <input type="text" id="updateField" name="updateField"><br>
-            <input type="submit" value="Update">
+            <input type="submit" name="update_submit" value="Update">
         </form>
     </div>
     <div id="Query1">

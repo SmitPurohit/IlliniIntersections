@@ -94,4 +94,8 @@ def insert_review(intersection_id, lighting, road_quality, traffic, visual_appea
     database.close()
 
 def update_review(review_number, comment):
+    database = authenticate()
+    print("reached")
+    print(review_number, comment)
+    database.close()
     return
