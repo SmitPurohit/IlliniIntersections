@@ -131,3 +131,22 @@ def delete_review(review_number):
     cursor.execute(delete_query)
     database.commit()
     database.close()
+
+def user_auth(username, password):
+    database = authenticate()
+    auth_query = (f"SELECT * FROM User WHERE username = '{username}' and password = '{password}'")
+    cursor = database.cursor()
+    cursor.execute(auth_query)
+    row = cursor.fetchone()
+    if row == None:
+        return 0
+    else:   
+        return 1
+    database.close()
+
+
+
+
+
+
+

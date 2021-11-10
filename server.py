@@ -1,14 +1,18 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request , session, redirect, url_for
 from forms import SignUpForm
 from utils.functions_back import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'thecodex'
 
+
 # GARY HIGHWAY(ew) x NEAL SHORE(ns)
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
+
+    if session['isAuth'] != 1:
+        return redirect(url_for('login'))
     if request.method == 'POST':
         # Insert Reviews
         if "add_review_submit" in request.form:
@@ -71,7 +75,31 @@ def signup():
     form = SignUpForm()
     return render_template('signup.html', form=form)
 
+@app.route('/', methods = ['POST','GET'])
+def login():
+    session['isAuth'] = 0
+    if request.method == 'POST':
+        if "submit_sign" in request.form:
+            username = request.form['username']
+            password = request.form['password']
+            isAuth = user_auth(username,password)
+            if isAuth == 1:
+                session['isAuth'] = 1
+                session['username'] = request.form['username']
+                return redirect(url_for('home'))
+    return render_template("signup.html")
+
+
 
 if __name__ == '__main__':
     app.run()
+
+# @app.route('/<var>')
+# def redirection():
+#     return redirect(url_for('home'))
+
+#    if 'username' in session:
+#       username = session['username']
+#       return 'Logged in as ' + username + '<br>' + "<b><a href = '/logout'>click here to log out</a></b>"
+#    return "You are not logged in <br><a href = '/login'>" + "click here to log in</a>"
 
