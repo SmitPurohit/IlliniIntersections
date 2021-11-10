@@ -8,7 +8,7 @@ app.config['SECRET_KEY'] = 'thecodex'
 
 # GARY HIGHWAY(ew) x NEAL SHORE(ns)
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/home', methods=['POST', 'GET'])
 def home():
 
     if session['isAuth'] != 1:
