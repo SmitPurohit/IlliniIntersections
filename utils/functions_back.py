@@ -70,12 +70,9 @@ def get_intersection_info(ew_name, ns_name):
 
 def insert_review(intersection_id, lighting, road_quality, traffic, visual_appeal, comments):
     database = authenticate()
-    print('inside insert review...')
-    print(intersection_id, lighting, road_quality, traffic, visual_appeal, comments)
     username = 'adam85'
-    overall_rating = (int(lighting) + int(road_quality) + int(traffic) + int(visual_appeal)) / 4
-    overall_rating = round(overall_rating)
-    print(overall_rating)
+
+    overall_rating = round((int(lighting) + int(road_quality) + int(traffic) + int(visual_appeal)) / 4)
 
     review_number_q = ("SELECT MAX(reviewNumber) FROM Reviews")
     cursor = database.cursor()
@@ -83,10 +80,8 @@ def insert_review(intersection_id, lighting, road_quality, traffic, visual_appea
     result = cursor.fetchall()
     review_number = (result[0][0]) + 1
 
-    print(review_number)
 
     # 5999 IntersectionID
-
     insertion_query = (f"INSERT INTO Reviews "
                        f"VALUES({review_number}, {intersection_id}, '{comments}',"
                        f"{overall_rating}, {lighting}, {road_quality}, {traffic},"
@@ -97,3 +92,6 @@ def insert_review(intersection_id, lighting, road_quality, traffic, visual_appea
     database.commit()
     cursor.close()
     database.close()
+
+def update_review(review_number, comment):
+    return
