@@ -84,11 +84,16 @@
         <h3>
             Add a Review
         </h3>
-        <form id="addReview">
+        <form id="addReview" method="post">
+            <h4>
+                Intersection ID:
+            </h4>
+            <input type="text" name='intersection_review_id' id="intersection_review_id">
             <h4>
                 Lighting Rating
             </h4>
-            <select id="addReviewLighting">
+
+            <select name="lighting_review" id="addReviewLighting">
                 <option value=""></option>
                 <option value=1>1</option>
                 <option value=2>2</option>
@@ -104,7 +109,7 @@
             <h4>
                 Road Quality Rating
             </h4>
-            <select id="addReviewQuality">
+            <select name="quality_review" id="addReviewQuality">
                 <option value=""></option>
                 <option value=1>1</option>
                 <option value=2>2</option>
@@ -120,7 +125,7 @@
             <h4>
                 Traffic Rating
             </h4>
-            <select id="addReviewTraffic">
+            <select name="traffic_review" id="addReviewTraffic">
                 <option value=""></option>
                 <option value=1>1</option>
                 <option value=2>2</option>
@@ -136,7 +141,7 @@
             <h4>
                 Visual Appeal Rating
             </h4>
-            <select id="addReviewVisualAppeal">
+            <select name="va_review" id="addReviewVisualAppeal">
                 <option value=""></option>
                 <option value=1>1</option>
                 <option value=2>2</option>
@@ -152,9 +157,10 @@
             <h4>
                 Comments:
             </h4>
-            <input type="text" id="commentsInput">
+
+            <input type="text" name = 'comments' id="commentsInput">
             <br> <br>
-            <input type="submit" value="Submit">
+            <input type="submit" name = 'add_review_submit' value="Submit">
         </form>
     </div>
     <div id="deleteReview">
