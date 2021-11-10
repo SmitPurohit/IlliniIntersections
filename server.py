@@ -23,10 +23,12 @@ def home():
 
         # Update Reviews
         if "update_submit" in request.form:
-            review_number = request.form.get('reviewNum')
+            review_number = request.form.get('reviewNumber')
             new_comment = request.form.get('updateField')
             update_review(review_number, new_comment)
             return render_template('index.html')
+
+
         # advanced queries
         if "runQuery1" in request.form:
             return render_template('index.html', resultQuery1 = runQuery1())

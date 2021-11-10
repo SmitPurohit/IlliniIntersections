@@ -95,7 +95,12 @@ def insert_review(intersection_id, lighting, road_quality, traffic, visual_appea
 
 def update_review(review_number, comment):
     database = authenticate()
-    print("reached")
-    print(review_number, comment)
+
+    update_query = (f"UPDATE Reviews SET "
+                    f"comments = '{comment}' "
+                    f"WHERE reviewNumber = {review_number}")
+    cursor = database.cursor()
+    cursor.execute(update_query)
+    database.commit()
+    cursor.close()
     database.close()
-    return
