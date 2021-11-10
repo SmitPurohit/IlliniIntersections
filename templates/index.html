@@ -167,12 +167,12 @@
         <h3>
             Delete Review
         </h3>
-        <form id="deleteReviewForm">
+        <form id="deleteReviewForm" method="post">
             <label for="reviewNum">Enter Review Number:</label><br>
             <input type="text" id="reviewNum" name="reviewNum"><br>
             {{reviewDelete}}
             <br>
-            <input type="submit" value="Delete">
+            <input type="submit" name="delete_submit" value="Delete">
         </form>
     </div>
     <div id="updateReview">

@@ -28,6 +28,11 @@ def home():
             update_review(review_number, new_comment)
             return render_template('index.html')
 
+        # Delete Reviews
+        if "delete_submit" in request.form:
+            delete_number = request.form.get("reviewNum")
+            delete_review(delete_number)
+            return render_template('index.html')
 
         # advanced queries
         if "runQuery1" in request.form:

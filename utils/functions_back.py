@@ -7,6 +7,7 @@ import mysql.connector
 import sys
 
 
+# Logs into GCP through secure log in
 def authenticate():
     with open('./config.txt', 'r') as f:
         HOST = f.readline().strip()
@@ -19,6 +20,8 @@ def authenticate():
                                    password=PASSWORD,
                                    database=DATABASE)
     return mydb
+
+# Advanced query 1
 def runQuery1():
     database = authenticate()
     query1 = ("SELECT name, direction FROM Street WHERE streetID in ((SELECT streetEWID FROM Statistics s JOIN Intersection i on s.statisticsID = i.intersectionID WHERE lightingRating >= 8.0) UNION (SELECT streetNSID FROM Statistics s JOIN Intersection i on s.statisticsID = i.intersectionID WHERE lightingRating >= 8.0)) GROUP BY name, direction")
@@ -29,6 +32,7 @@ def runQuery1():
     result = cursor.fetchall()
     return result
 
+# Advanced query 2
 def runQuery2():
     database = authenticate()
     query1 = ("SELECT r.intersectionID, ABS(r.qualityRating - s.roadQuality) AS Difference, AVG(r.overallRating) AS AverageOverallRating FROM Reviews r JOIN Statistics s on r.intersectionID = s.statisticsID WHERE intersectionID in ( SELECT r.intersectionID FROM Reviews r JOIN Statistics s on r.intersectionID = s.statisticsID WHERE ABS(r.qualityRating - s.roadQuality) <= 1.0) GROUP BY r.intersectionID, Difference ORDER BY Difference")
@@ -38,7 +42,9 @@ def runQuery2():
     cursor.execute(query1)
     result = cursor.fetchall()
     return result
-# return the intersection info for these two streets
+
+
+# Retrieves and displays statistics of an intersection given its two street names.
 def get_intersection_info(ew_name, ns_name):
     database = authenticate()
     # Returns streetID
@@ -68,6 +74,7 @@ def get_intersection_info(ew_name, ns_name):
     return intersectionID, comments, overallRating, visualAppeal, lightingRating, qualityRating, trafficRating, views
 
 
+# Inserts a review into the database.
 def insert_review(intersection_id, lighting, road_quality, traffic, visual_appeal, comments):
     database = authenticate()
     username = 'adam85'
@@ -81,18 +88,21 @@ def insert_review(intersection_id, lighting, road_quality, traffic, visual_appea
     review_number = (result[0][0]) + 1
 
 
-    # 5999 IntersectionID
+
+    # Used IntersectionID 5999 for testing.
+
     insertion_query = (f"INSERT INTO Reviews "
                        f"VALUES({review_number}, {intersection_id}, '{comments}',"
                        f"{overall_rating}, {lighting}, {road_quality}, {traffic},"
                        f"{visual_appeal}, '{username}')")
-    print(insertion_query)
     cursor = database.cursor()
     cursor.execute(insertion_query)
     database.commit()
     cursor.close()
     database.close()
 
+
+# Updates a review within the database.
 def update_review(review_number, comment):
     database = authenticate()
 
@@ -103,4 +113,15 @@ def update_review(review_number, comment):
     cursor.execute(update_query)
     database.commit()
     cursor.close()
+    database.close()
+
+
+# Deletes a review within the database.
+def delete_review(review_number):
+    database = authenticate()
+    print(review_number)
+    delete_query = (f"DELETE FROM Reviews WHERE reviewNumber = {review_number}")
+    cursor = database.cursor()
+    cursor.execute(delete_query)
+    database.commit()
     database.close()
