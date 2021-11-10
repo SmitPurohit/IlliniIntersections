@@ -21,7 +21,7 @@
             </div>
     </form>  
 
-    <div id="reviews" style="display:''">
+    <div id="reviews" style={{display}}>
         <h2 id="intersectionName">
            {{IntersectionNameEW}} {{IntersectionNameNS}}
         </h2>
@@ -181,11 +181,12 @@
         </h3>
         <form id="updateReviewForm" method="post">
             <label for="reviewNumber">Enter Review Number:</label><br>
-            <input type="text" id="reviewNumber" name="reviewNumber"><br>
-            {{reviewUpdate}}
-            <br>
+            <input type="text" id="reviewNumber" name="reviewNumber"><br><br>
+            Old Review: {{reviewUpdateOld}} <br><br>
+            New Review: {{reviewUpdateNew}}
+            <br><br>
             <label for="updateField">New Comments:</label><br>
-            <input type="text" id="updateField" name="updateField"><br>
+            <input type="text" id="updateField" name="updateField"><br><br>
             <input type="submit" name="update_submit" value="Update">
         </form>
     </div>

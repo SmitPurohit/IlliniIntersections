@@ -7,7 +7,7 @@ app.config['SECRET_KEY'] = 'thecodex'
 
 # GARY HIGHWAY(ew) x NEAL SHORE(ns)
 
-@app.route('/home', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def home():
     if request.method == 'POST':
         # Insert Reviews
@@ -25,8 +25,10 @@ def home():
         if "update_submit" in request.form:
             review_number = request.form.get('reviewNumber')
             new_comment = request.form.get('updateField')
-            update_review(review_number, new_comment)
-            return render_template('index.html')
+            oldReview, newReview = update_review(review_number, new_comment)
+            return render_template('index.html', 
+                                    reviewUpdateNew = newReview, 
+                                    reviewUpdateOld = oldReview)
 
         # Delete Reviews
         if "delete_submit" in request.form:
@@ -45,6 +47,7 @@ def home():
         # show intersection and info given streets
         street_ew = request.form['ew']
         street_ns = request.form['ns']
+        
         intersectionID, comments, overallRating, visualAppeal, lightingRating, qualityRating, trafficRating, views = get_intersection_info(street_ew, street_ns)
         return render_template('index.html',
                                 IntersectionNameEW=street_ew + ' &',
@@ -55,11 +58,12 @@ def home():
                                 lightingRating = lightingRating,
                                 qualityRating = qualityRating,
                                 trafficRating = trafficRating,
-                                viewURL = views
+                                viewURL = views,
+                                display="display:''"
                                 )
         
     else:
-        return render_template('index.html')
+        return render_template('index.html',display="display:none")
 
 
 @app.route('/signup')

@@ -1,3 +1,6 @@
 #commentsInput {
     height:50px;
 }
+#reviews {
+    display: none;
+}

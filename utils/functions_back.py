@@ -109,11 +109,17 @@ def update_review(review_number, comment):
     update_query = (f"UPDATE Reviews SET "
                     f"comments = '{comment}' "
                     f"WHERE reviewNumber = {review_number}")
+    search_query = (f"SELECT * FROM Reviews WHERE reviewNumber = {review_number}")
     cursor = database.cursor()
+    cursor.execute(search_query)
+    oldResult = cursor.fetchall()
     cursor.execute(update_query)
+    cursor.execute(search_query)
+    newResult = cursor.fetchall()
     database.commit()
     cursor.close()
     database.close()
+    return oldResult, newResult
 
 
 # Deletes a review within the database.
