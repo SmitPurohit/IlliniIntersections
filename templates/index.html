@@ -172,7 +172,7 @@
             <input type="text" id="reviewNum" name="reviewNum"><br>
             {{reviewDelete}}
             <br>
-            <input type="submit" name="delete_submit" value="Delete">
+            <input type="submit" name="deleteReview_submit" value="Delete">
         </form>
     </div>
     <div id="updateReview">
@@ -214,6 +214,18 @@
             </form>
             {{resultQuery2}}
 
+    </div>
+    <div id="deleteUser">
+        <h3>
+            Delete User
+        </h3>
+        <form id="deleteUserForm" method="post">
+            <label for="username">Enter username:</label><br>
+            <input type="text" id="username" name="username"><br>
+            {{userDelete}}
+            <br>
+            <input type="submit" name="deleteUser_submit" value="Delete">
+        </form>
     </div>
 </body>
 

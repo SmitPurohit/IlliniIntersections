@@ -35,9 +35,13 @@ def home():
                                     reviewUpdateOld = oldReview)
 
         # Delete Reviews
-        if "delete_submit" in request.form:
+        if "deleteReview_submit" in request.form:
             delete_number = request.form.get("reviewNum")
             delete_review(delete_number)
+            return render_template('index.html')
+        
+        # Delete User
+        if "deleteUser_submit" in request.form:
             return render_template('index.html')
 
         # advanced queries
