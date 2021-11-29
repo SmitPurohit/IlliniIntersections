@@ -1,15 +1,19 @@
-{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
 
-<h2> Sign Up </h2>
+</head>
+<body>
+   {% block content %}
 
-<form action = "/" method = "post">
-      <p><input type = "text" name = "username" placeholder ="username "/></p>
-      <p><input type = "text" name = "password" placeholder ="username "/></p>
-      <input type = "submit" name = "submit_sign" value = "submit"/>
-   </form>	
+   <h2> Sign Up </h2>
 
-{% endblock %}
+   <form action = "/" method = "post">
+         <p><input type = "text" name = "username" placeholder ="username "/></p>
+         <p><input type = "text" name = "password" placeholder ="password"/></p>
+         <input type = "submit" name = "submit_sign" value = "submit"/>
+      </form>	
 
-'''
-	
-'''
+   {% endblock %}
+</body>
+</html>
