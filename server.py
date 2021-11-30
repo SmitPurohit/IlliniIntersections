@@ -86,7 +86,7 @@ def signup():
             lastName = request.form['lastName']
             validCheck = user_signup(username,firstName,lastName,password)
             if validCheck == 0:
-                return redirect(url_for('home'))
+                return redirect(url_for('login'))
     return render_template('adduser.html')
 
 @app.route('/login', methods = ['POST','GET'])

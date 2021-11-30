@@ -148,18 +148,15 @@ def user_auth(username, password):
 
 def user_signup(username,firstName,lastName,password):
     database = authenticate()
-    print(1)
     auth_query = (f"SELECT * FROM User WHERE username = '{username}'")
     sign_query = (f"INSERT INTO User (username,firstName,lastName,password) VALUES('{username}','{firstName}','{lastName}','{password}')")
     cursor = database.cursor()
     cursor.execute(auth_query)
     row = cursor.fetchone()
-    print(1)
     if row == None:
-        print(1)
         cursor = database.cursor()
         cursor.execute(sign_query)
-        print(sign_query)
+        database.commit()
         database.close()
         return 0
     else:
