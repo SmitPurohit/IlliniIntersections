@@ -163,6 +163,13 @@ def user_signup(username,firstName,lastName,password):
         database.close()   
         return 1
     
+def delete_user(username):
+    database = authenticate()
+    delete_query = (f"DELETE FROM User WHERE username = '{username}'")
+    cursor = database.cursor()
+    cursor.execute(delete_query)
+    database.commit()
+    database.close()
 
 
 
