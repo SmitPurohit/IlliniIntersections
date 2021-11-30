@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<h1> Advanced Queries </h1>
+</head>
+<body>
+<a href="/">Home</a>
+<div id="Query1">
+
+    <h3>
+        Query 1: Gets all the streets that have good lighting (a lighting rating above 8)
+    </h3>
+    <form action="#" method="post">
+        <div>
+            <input type="submit" name="runQuery1" value="Run Query 1">
+        </div>
+        
+    </form>
+    {{resultQuery1}}
+
+</div>
+<div id="Query2">
+
+    <h3>
+        Query 2: Returns the intersectionID, the difference between the objective and subjective rating of an intersection’s road quality (statistics vs reviews), and the overall rating of an intersection for all intersections that have an objective rating of 1 or less
+    </h3>
+    <form action="#" method="post">
+        <input type="submit" name="runQuery2" value="Run Query 2">
+    </form>
+    {{resultQuery2}}
+
+</div>
+</body>
+</html>

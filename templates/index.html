@@ -3,9 +3,17 @@
 
 <head>
 <header>
-    <h1>
-        Illini Intersections
-    </h1>
+    <div class="header">
+        <h1>Illini Intersections</h1>
+        <div class="header-right">
+          <a class="active" href="/">Home</a>
+          <a href="login">{{authStatus}}</a>
+          <a href="logout" style={{logoutDisplay}}>Log Out</a>
+          <a href="queries"> Queries </a>
+          <a href="admin" style={{logoutDisplay}}> Admin </a>
+          <a href="about.html">About</a>
+        </div>
+      </div>
 </header>
 
 <link rel="stylesheet" type="text/css" href="styles.css">
@@ -13,6 +21,7 @@
 </head>
 
 <body id="body">
+    
     <form action="#" method="post">
             <div id="intersectionSelection">
                 <input type="text" name='ew' id="intersection" placeholder="Enter EW Street Here">
@@ -163,70 +172,7 @@
             <input type="submit" name = 'add_review_submit' value="Submit">
         </form>
     </div>
-    <div id="deleteReview">
-        <h3>
-            Delete Review
-        </h3>
-        <form id="deleteReviewForm" method="post">
-            <label for="reviewNum">Enter Review Number:</label><br>
-            <input type="text" id="reviewNum" name="reviewNum"><br>
-            {{reviewDelete}}
-            <br>
-            <input type="submit" name="deleteReview_submit" value="Delete">
-        </form>
-    </div>
-    <div id="updateReview">
-        <h3>
-            Update Review
-        </h3>
-        <form id="updateReviewForm" method="post">
-            <label for="reviewNumber">Enter Review Number:</label><br>
-            <input type="text" id="reviewNumber" name="reviewNumber"><br><br>
-            Old Review: {{reviewUpdateOld}} <br><br>
-            New Review: {{reviewUpdateNew}}
-            <br><br>
-            <label for="updateField">New Comments:</label><br>
-            <input type="text" id="updateField" name="updateField"><br><br>
-            <input type="submit" name="update_submit" value="Update">
-        </form>
-    </div>
-    <div id="Query1">
-
-            <h3>
-                Query 1: Gets all the streets that have good lighting (a lighting rating above 8)
-            </h3>
-            <form action="#" method="post">
-                <div>
-                    <input type="submit" name="runQuery1" value="Run Query 1">
-                </div>
-                
-            </form>
-            {{resultQuery1}}
-
-    </div>
-    <div id="Query2">
-
-            <h3>
-                Query 2: Returns the intersectionID, the difference between the objective and subjective rating of an intersection’s road quality (statistics vs reviews), and the overall rating of an intersection for all intersections that have an objective rating of 1 or less
-            </h3>
-            <form action="#" method="post">
-                <input type="submit" name="runQuery2" value="Run Query 2">
-            </form>
-            {{resultQuery2}}
-
-    </div>
-    <div id="deleteUser">
-        <h3>
-            Delete User
-        </h3>
-        <form id="deleteUserForm" method="post">
-            <label for="username">Enter username:</label><br>
-            <input type="text" id="username" name="username"><br>
-            {{userDelete}}
-            <br>
-            <input type="submit" name="deleteUser_submit" value="Delete">
-        </form>
-    </div>
+    
 </body>
 
 </html>

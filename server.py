@@ -8,47 +8,46 @@ app.config['SECRET_KEY'] = 'thecodex'
 
 # GARY HIGHWAY(ew) x NEAL SHORE(ns)
 
-@app.route('/home', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def home():
-
+    if 'isAuth' not in session:
+        session['isAuth'] = 0
     if session['isAuth'] != 1:
-        return redirect(url_for('login'))
+        authString = "Log In/Sign Up"
+        displayLogout = "display:none"
+    else:
+        authString = session['username']
+        displayLogout = ""
     if request.method == 'POST':
         # Insert Reviews
         if "add_review_submit" in request.form:
-            intersection_id = request.form.get('intersection_review_id')
-            lighting_review = request.form.get('lighting_review')
-            quality_review = request.form.get('quality_review')
-            traffic_review = request.form.get('traffic_review')
-            va_review = request.form.get('va_review')
-            comments = request.form.get('comments')
-            insert_review(intersection_id, lighting_review, quality_review, traffic_review, va_review, comments)
-            return render_template('index.html')
+            if session['isAuth'] == 1:
+                intersection_id = request.form.get('intersection_review_id')
+                lighting_review = request.form.get('lighting_review')
+                quality_review = request.form.get('quality_review')
+                traffic_review = request.form.get('traffic_review')
+                va_review = request.form.get('va_review')
+                comments = request.form.get('comments')
+                insert_review(intersection_id, lighting_review, quality_review, traffic_review, va_review, comments)
+                
 
         # Update Reviews
         if "update_submit" in request.form:
-            review_number = request.form.get('reviewNumber')
-            new_comment = request.form.get('updateField')
-            oldReview, newReview = update_review(review_number, new_comment)
-            return render_template('index.html', 
-                                    reviewUpdateNew = newReview, 
-                                    reviewUpdateOld = oldReview)
+            return redirect(url_for('admin'))
 
         # Delete Reviews
         if "deleteReview_submit" in request.form:
-            delete_number = request.form.get("reviewNum")
-            delete_review(delete_number)
-            return render_template('index.html')
+            return redirect(url_for('admin'))
         
         # Delete User
         if "deleteUser_submit" in request.form:
-            return render_template('index.html')
+            return redirect(url_for('admin'))
 
         # advanced queries
         if "runQuery1" in request.form:
-            return render_template('index.html', resultQuery1 = runQuery1())
+            return redirect(url_for('queries'))
         if "runQuery2" in request.form:
-            return render_template('index.html', resultQuery2 = runQuery2())
+            return redirect(url_for('queries'))
 
 
 
@@ -67,33 +66,85 @@ def home():
                                 qualityRating = qualityRating,
                                 trafficRating = trafficRating,
                                 viewURL = views,
-                                display="display:''"
+                                display="display:''",
+                                authStatus = authString,
+                                logoutDisplay = displayLogout
                                 )
         
     else:
-        return render_template('index.html',display="display:none")
+        return render_template('index.html',
+                                display="display:none", 
+                                authStatus = authString, 
+                                logoutDisplay = displayLogout)
+
+@app.route('/admin', methods= ['POST','GET'])
+def admin():
+    #update users
+    if "update_submit" in request.form:
+        review_number = request.form.get('reviewNumber')
+        new_comment = request.form.get('updateField')
+        oldReview, newReview = update_review(review_number, new_comment)
+        return render_template('admin.html', 
+                                reviewUpdateNew = newReview, 
+                                reviewUpdateOld = oldReview)
+    # Delete Reviews
+    if "deleteReview_submit" in request.form:
+        delete_number = request.form.get("reviewNum")
+        delete_review(delete_number)
+        return render_template('admin.html')
+    
+    # Delete User
+    if "deleteUser_submit" in request.form:
+        return render_template('admin.html')
+    return render_template('admin.html')
+
+@app.route('/queries', methods= ['POST','GET'])
+def queries():
+    # advanced queries
+    if "runQuery1" in request.form:
+        return render_template('queries.html', resultQuery1 = runQuery1())
+    if "runQuery2" in request.form:
+        return render_template('queries.html', resultQuery2 = runQuery2())
+    return render_template('queries.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('isAuth', None)
+    return redirect(url_for('home'))
 
 
-@app.route('/signup')
+@app.route('/signup', methods = ['POST','GET'])
 def signup():
-    form = SignUpForm()
-    return render_template('signup.html', form=form)
+    print(1)
+    if request.method == 'POST':
+        if "submit_adduser" in request.form:
+            username = request.form['username']
+            password = request.form['password']
+            firstName = request.form['firstName']
+            lastName = request.form['lastName']
+            validCheck = user_signup(username,firstName,lastName,password)
+            if validCheck == 0:
+                return redirect(url_for('login'))
+    return render_template('adduser.html')
 
-@app.route('/', methods = ['POST','GET'])
+@app.route('/login', methods = ['POST','GET'])
 def login():
     session['isAuth'] = 0
     if request.method == 'POST':
+        print(3)
         if "submit_sign" in request.form:
+            print(2)
             username = request.form['username']
             password = request.form['password']
             isAuth = user_auth(username,password)
             if isAuth == 1:
+                print(1)
                 session['isAuth'] = 1
                 session['username'] = request.form['username']
                 return redirect(url_for('home'))
+            return render_template("signup.html")
+        return render_template("adduser.html")
     return render_template("signup.html")
-
-
 
 if __name__ == '__main__':
     app.run()

@@ -3,17 +3,21 @@
 <head>
 
 </head>
-<body>
+<body style="background-color: black;">
    {% block content %}
 
-   <h2> Sign Up </h2>
-
-   <form action = "/" method = "post">
+   <h2 style="color:white;text-align:center;"> LOGIN </h2>
+   <a href="/">Home</a>
+   <form action = "/login" method = "post">
          <p><input type = "text" name = "username" placeholder ="username "/></p>
          <p><input type = "text" name = "password" placeholder ="password"/></p>
-         <input type = "submit" name = "submit_sign" value = "submit"/>
-      </form>	
-
+         <input type = "submit" name = "submit_sign" value = "Submit"/>
+   </form>	
+   <br>
+   <form action = "/signup" method = "post">
+      
+      <input type = "submit" name = "gotosignup" value = "Sign Up"/>
+   </form>
    {% endblock %}
 </body>
 </html>

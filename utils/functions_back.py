@@ -139,10 +139,30 @@ def user_auth(username, password):
     cursor.execute(auth_query)
     row = cursor.fetchone()
     if row == None:
+        database.close()
         return 0
-    else:   
+    else:
+        database.close()   
         return 1
-    database.close()
+    
+
+def user_signup(username,firstName,lastName,password):
+    database = authenticate()
+    auth_query = (f"SELECT * FROM User WHERE username = '{username}'")
+    sign_query = (f"INSERT INTO User (username,firstName,lastName,password) VALUES('{username}','{firstName}','{lastName}','{password}')")
+    cursor = database.cursor()
+    cursor.execute(auth_query)
+    row = cursor.fetchone()
+    if row == None:
+        cursor = database.cursor()
+        cursor.execute(sign_query)
+        database.commit()
+        database.close()
+        return 0
+    else:
+        database.close()   
+        return 1
+    
 
 
 

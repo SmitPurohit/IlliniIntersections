@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<h1> Admin Panel</h1>
+</head>
+<body>
+<a href="/">Home</a>
+<div id="deleteReview">
+    <h3>
+        Delete Review
+    </h3>
+    <form id="deleteReviewForm" method="post">
+        <label for="reviewNum">Enter Review Number:</label><br>
+        <input type="text" id="reviewNum" name="reviewNum"><br>
+        {{reviewDelete}}
+        <br>
+        <input type="submit" name="deleteReview_submit" value="Delete">
+    </form>
+</div>
+<div id="updateReview">
+    <h3>
+        Update Review
+    </h3>
+    <form id="updateReviewForm" method="post">
+        <label for="reviewNumber">Enter Review Number:</label><br>
+        <input type="text" id="reviewNumber" name="reviewNumber"><br><br>
+        Old Review: {{reviewUpdateOld}} <br><br>
+        New Review: {{reviewUpdateNew}}
+        <br><br>
+        <label for="updateField">New Comments:</label><br>
+        <input type="text" id="updateField" name="updateField"><br><br>
+        <input type="submit" name="update_submit" value="Update">
+    </form>
+</div>
+
+</body>
+</html>
