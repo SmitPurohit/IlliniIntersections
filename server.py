@@ -106,6 +106,11 @@ def queries():
     if "runQuery2" in request.form:
         return render_template('queries.html', resultQuery2 = runQuery2())
     return render_template('queries.html')
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
 
 @app.route('/logout')
 def logout():
@@ -131,14 +136,14 @@ def signup():
 def login():
     session['isAuth'] = 0
     if request.method == 'POST':
-        print(3)
+       
         if "submit_sign" in request.form:
-            print(2)
+            
             username = request.form['username']
             password = request.form['password']
             isAuth = user_auth(username,password)
             if isAuth == 1:
-                print(1)
+                
                 session['isAuth'] = 1
                 session['username'] = request.form['username']
                 return redirect(url_for('home'))
