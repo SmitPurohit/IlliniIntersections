@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request , session, redirect, url_for
-from forms import SignUpForm
+# from FlaskForm import SignUpForm
 from utils.functions_back import *
 
 app = Flask(__name__)
@@ -8,11 +8,12 @@ app.config['SECRET_KEY'] = 'thecodex'
 
 # GARY HIGHWAY(ew) x NEAL SHORE(ns)
 
-@app.route('/home', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def home():
-
-    if session['isAuth'] != 1:
-        return redirect(url_for('login'))
+    # if 'isAuth' not in session:
+    #     session['isAuth'] = 0
+    # if session['isAuth'] != 1:
+    #     return redirect(url_for('login'))
     if request.method == 'POST':
         # Insert Reviews
         if "add_review_submit" in request.form:
@@ -74,12 +75,21 @@ def home():
         return render_template('index.html',display="display:none")
 
 
-@app.route('/signup')
+@app.route('/signup', methods = ['POST','GET'])
 def signup():
-    form = SignUpForm()
-    return render_template('signup.html', form=form)
+    print(1)
+    if request.method == 'POST':
+        if "submit_adduser" in request.form:
+            username = request.form['username']
+            password = request.form['password']
+            firstName = request.form['firstName']
+            lastName = request.form['lastName']
+            validCheck = user_signup(username,firstName,lastName,password)
+            if validCheck == 0:
+                return redirect(url_for('home'))
+    return render_template('adduser.html')
 
-@app.route('/', methods = ['POST','GET'])
+@app.route('/login', methods = ['POST','GET'])
 def login():
     session['isAuth'] = 0
     if request.method == 'POST':
