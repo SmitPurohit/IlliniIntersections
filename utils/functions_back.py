@@ -78,10 +78,10 @@ def get_intersection_info(ew_name, ns_name):
 
 
 # Inserts a review into the database.
-def insert_review(intersection_id, lighting, road_quality, traffic, visual_appeal, comments):
+def insert_review(username, intersection_id, lighting, road_quality, traffic, visual_appeal, comments):
     database = authenticate()
-    username = 'adam85'
 
+    
     overall_rating = round((int(lighting) + int(road_quality) + int(traffic) + int(visual_appeal)) / 4)
 
     review_number_q = ("SELECT MAX(reviewNumber) FROM Reviews")
@@ -186,14 +186,14 @@ def delete_user(username):
     database = authenticate()
     cursor = database.cursor()
     test = []
-    cursor.callproc('GetDeleteStats',["adam85"])
+    cursor.callproc('GetDeleteStats',[username])
     for r in cursor.stored_results():
         test.append(r.fetchall())
     
-    #delete_query = (f"DELETE FROM User WHERE username = '{username}'")
+    delete_query = (f"DELETE FROM User WHERE username = '{username}'")
     
-    #cursor.execute(delete_query)
-    #database.commit()
+    cursor.execute(delete_query)
+    database.commit()
     database.close()
     return test
 

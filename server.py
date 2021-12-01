@@ -30,7 +30,32 @@ def home():
                 va_review = request.form.get('va_review')
                 comments = request.form.get('comments')
                 insert_review(session['username'], session['intersectionID'], lighting_review, quality_review, traffic_review, va_review, comments)
+                street_ew_Coordinates = geocode(session['ew']+",Champaign,Illinois")
+                street_ns_Coordinates = geocode(session['ns']+",Champaign,Illinois" )
+                addReviewString = "Thank you For Adding a Review!"
+                displayLogout = "display: none"
+                intersectionID, comments, overallRating, visualAppeal, lightingRating, qualityRating, trafficRating, views = get_intersection_info(session['ew'], session['ns'])
                 
+                return render_template('index.html',
+                                IntersectionNameEW=session['ew'] + ' &',
+                                IntersectionNameNS=session['ns'],
+                                comments = comments,
+                                overallRating = overallRating,
+                                visualAppeal = visualAppeal,
+                                lightingRating = lightingRating,
+                                qualityRating = qualityRating,
+                                trafficRating = trafficRating,
+                                viewURL = views,
+                                display="display:''",
+                                authStatus = authString,
+                                logoutDisplay = displayLogout,
+                                lat = street_ew_Coordinates[0],
+                                lng = street_ew_Coordinates[1], 
+                                lat1 = street_ns_Coordinates[0],
+                                lng1 = street_ns_Coordinates[1],
+                                addReviewStatus = addReviewString
+
+                                )
 
         # Update Reviews
         if "update_submit" in request.form:
@@ -55,6 +80,8 @@ def home():
         # show intersection and info given streets
         street_ew = request.form['ew']
         street_ns = request.form['ns']
+        session['ew'] = street_ew
+        session['ns'] = street_ns
         street_ew_Coordinates = geocode(street_ew+",Champaign,Illinois")
         street_ns_Coordinates = geocode(street_ns +",Champaign,Illinois" )
         
@@ -76,8 +103,8 @@ def home():
                                 logoutDisplay = displayLogout,
                                 lat = street_ew_Coordinates[0],
                                 lng = street_ew_Coordinates[1], 
-                                lat1 = street_ew_Coordinates[0],
-                                lng1 = street_ew_Coordinates[1],
+                                lat1 = street_ns_Coordinates[0],
+                                lng1 = street_ns_Coordinates[1],
                                 addReviewStatus = addReviewString
 
                                 )
@@ -107,7 +134,6 @@ def admin():
     # Delete User
     if "deleteUser_submit" in request.form:
         delete_name = request.form.get("delUsername")
-        
         test = delete_user(delete_name)
         return render_template('admin.html', deleteInfo=test)
     return render_template('admin.html')
