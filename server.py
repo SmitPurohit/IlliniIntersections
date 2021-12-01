@@ -15,20 +15,21 @@ def home():
     if session['isAuth'] != 1:
         authString = "Log In/Sign Up"
         displayLogout = "display:none"
+        addReviewString = "Log In or Sign Up to Add a Review"
     else:
         authString = session['username']
         displayLogout = ""
+        addReviewString = ""
     if request.method == 'POST':
         # Insert Reviews
         if "add_review_submit" in request.form:
             if session['isAuth'] == 1:
-                intersection_id = request.form.get('intersection_review_id')
                 lighting_review = request.form.get('lighting_review')
                 quality_review = request.form.get('quality_review')
                 traffic_review = request.form.get('traffic_review')
                 va_review = request.form.get('va_review')
                 comments = request.form.get('comments')
-                insert_review(intersection_id, lighting_review, quality_review, traffic_review, va_review, comments)
+                insert_review(session['username'], session['intersectionID'], lighting_review, quality_review, traffic_review, va_review, comments)
                 
 
         # Update Reviews
@@ -57,7 +58,9 @@ def home():
         street_ew_Coordinates = geocode(street_ew+",Champaign,Illinois")
         street_ns_Coordinates = geocode(street_ns +",Champaign,Illinois" )
         
+        
         intersectionID, comments, overallRating, visualAppeal, lightingRating, qualityRating, trafficRating, views = get_intersection_info(street_ew, street_ns)
+        session['intersectionID'] = intersectionID
         return render_template('index.html',
                                 IntersectionNameEW=street_ew + ' &',
                                 IntersectionNameNS=street_ns,
@@ -74,7 +77,8 @@ def home():
                                 lat = street_ew_Coordinates[0],
                                 lng = street_ew_Coordinates[1], 
                                 lat1 = street_ew_Coordinates[0],
-                                lng1 = street_ew_Coordinates[1]
+                                lng1 = street_ew_Coordinates[1],
+                                addReviewStatus = addReviewString
 
                                 )
         
@@ -104,8 +108,8 @@ def admin():
     if "deleteUser_submit" in request.form:
         delete_name = request.form.get("delUsername")
         
-        delete_user(delete_name)
-        return render_template('admin.html')
+        test = delete_user(delete_name)
+        return render_template('admin.html', deleteInfo=test)
     return render_template('admin.html')
 
 @app.route('/queries', methods= ['POST','GET'])

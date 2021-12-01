@@ -1,4 +1,5 @@
 import sqlite3
+from flask.templating import render_template
 from google.cloud import storage
 import pandas as pd
 import numpy as np
@@ -28,9 +29,8 @@ def authenticate():
 def runQuery1():
     database = authenticate()
     query1 = ("SELECT name, direction FROM Street WHERE streetID in ((SELECT streetEWID FROM Statistics s JOIN Intersection i on s.statisticsID = i.intersectionID WHERE lightingRating >= 8.0) UNION (SELECT streetNSID FROM Statistics s JOIN Intersection i on s.statisticsID = i.intersectionID WHERE lightingRating >= 8.0)) GROUP BY name, direction")
-
-
     cursor = database.cursor()
+    
     cursor.execute(query1)
     result = cursor.fetchall()
     return result
@@ -184,60 +184,20 @@ def geocode(address):
     
 def delete_user(username):
     database = authenticate()
-    delete_query = (f"DELETE FROM User WHERE username = '{username}'")
     cursor = database.cursor()
-    cursor.execute(delete_query)
-    database.commit()
+    test = []
+    cursor.callproc('GetDeleteStats',["adam85"])
+    for r in cursor.stored_results():
+        test.append(r.fetchall())
+    
+    #delete_query = (f"DELETE FROM User WHERE username = '{username}'")
+    
+    #cursor.execute(delete_query)
+    #database.commit()
     database.close()
-
-# # TRIGGER
-# CREATE TRIGGER deleteUser
-# BEFORE DELETE ON User
-# FOR EACH ROW
-# BEGIN
-#     SET @ NumReviews = (
-#                         SELECT COUNT( *)
-#                         FROM Users JOIN Reviews ON Users.username = Reviews.userid
-#                         )
-#     IF NumReviews > 0 THEN
-#         CALL UserReviewStats(OLD.username)
-#     END IF;
-# END;
+    return test
 
 
-# # STORED PROCEDURE :
-# DELIMITER $$
-
-#     CREATE PROCEDURE UserReviewStats
-# (
-#     deleted_username VARCHAR(20)
-# )
-# BEGIN
-
-#     SELECT name FROM Street WHERE streetid IN
-#     (
-#         (SELECT streetEWID FROM Reviews  NATURAL JOIN Intersection WHERE username = deleted_username)
-#         UNION
-#         (SELECT streetNSID FROM Reviews NATURAL JOIN Intersection WHERE username = deleted_username)
-#     );
-
-#     SELECT DISTINCT username
-#     FROM Reviews NATURAL JOIN Intersection
-#     WHERE intersectionid IN (
-#         SELECT intersectionid FROM Reviews WHERE username = deleted_username
-#         GROUP BY intersectionid
-#     );
-
-#     SELECT intersectionID,AVG(overallRating)
-#     FROM Reviews NATURAL JOIN Intersection
-#     WHERE intersectionID IN (
-#         SELECT intersectionID
-#         FROM Reviews NATURAL JOIN Intersection
-#         WHERE username = deleted_username
-#     )
-#     GROUP BY intersectionID ;
-# END; $$
-# DELIMITER ;
 
 
 
