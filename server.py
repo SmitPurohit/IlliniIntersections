@@ -102,6 +102,9 @@ def admin():
     
     # Delete User
     if "deleteUser_submit" in request.form:
+        delete_name = request.form.get("delUsername")
+        
+        delete_user(delete_name)
         return render_template('admin.html')
     return render_template('admin.html')
 

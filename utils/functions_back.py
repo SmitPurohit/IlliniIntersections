@@ -182,8 +182,62 @@ def geocode(address):
     return lat, lng
 
     
+def delete_user(username):
+    database = authenticate()
+    delete_query = (f"DELETE FROM User WHERE username = '{username}'")
+    cursor = database.cursor()
+    cursor.execute(delete_query)
+    database.commit()
+    database.close()
+
+# # TRIGGER
+# CREATE TRIGGER deleteUser
+# BEFORE DELETE ON User
+# FOR EACH ROW
+# BEGIN
+#     SET @ NumReviews = (
+#                         SELECT COUNT( *)
+#                         FROM Users JOIN Reviews ON Users.username = Reviews.userid
+#                         )
+#     IF NumReviews > 0 THEN
+#         CALL UserReviewStats(OLD.username)
+#     END IF;
+# END;
 
 
+# # STORED PROCEDURE :
+# DELIMITER $$
+
+#     CREATE PROCEDURE UserReviewStats
+# (
+#     deleted_username VARCHAR(20)
+# )
+# BEGIN
+
+#     SELECT name FROM Street WHERE streetid IN
+#     (
+#         (SELECT streetEWID FROM Reviews  NATURAL JOIN Intersection WHERE username = deleted_username)
+#         UNION
+#         (SELECT streetNSID FROM Reviews NATURAL JOIN Intersection WHERE username = deleted_username)
+#     );
+
+#     SELECT DISTINCT username
+#     FROM Reviews NATURAL JOIN Intersection
+#     WHERE intersectionid IN (
+#         SELECT intersectionid FROM Reviews WHERE username = deleted_username
+#         GROUP BY intersectionid
+#     );
+
+#     SELECT intersectionID,AVG(overallRating)
+#     FROM Reviews NATURAL JOIN Intersection
+#     WHERE intersectionID IN (
+#         SELECT intersectionID
+#         FROM Reviews NATURAL JOIN Intersection
+#         WHERE username = deleted_username
+#     )
+#     GROUP BY intersectionID ;
+# END; $$
+# DELIMITER ;
 
 
 
