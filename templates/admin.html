@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+</head>
 <header>
-<div class="header"  style="background-color: rgb(255, 255, 255)";>
+<div class="header" style="background-color: rgb(255, 255, 255);">
 <h1 style = "text-align:center;"> Admin </h1>
 <a href="/">Home</a>
+</div>
+</header>
+<body style="background-color: rgb(150, 150, 150)";>
 <div id="deleteReview">
     <h3>
         Delete Review
@@ -16,6 +20,7 @@
         <br>
         <input type="submit" name="deleteReview_submit" value="Delete">
     </form>
+    <p style="color:red"> {{errorDeleteReview}}</p>
 </div>
 <div id="updateReview">
     <h3>
@@ -31,6 +36,7 @@
         <input type="text" id="updateField" name="updateField"><br><br>
         <input type="submit" name="update_submit" value="Update">
     </form>
+    <p style="color:red"> {{errorUpdateReview}}</p>
 </div>
 <div id="deleteUser">
     <h3>
@@ -44,6 +50,7 @@
     <p> 
         {{deleteInfo}}
     </p>
+    <p style="color:red"> {{errorDeleteUser}}</p>
 </div>
 </body>
 </html>

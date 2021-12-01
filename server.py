@@ -85,7 +85,17 @@ def home():
         street_ew_Coordinates = geocode(street_ew+",Champaign,Illinois")
         street_ns_Coordinates = geocode(street_ns +",Champaign,Illinois" )
         
-        
+        if get_intersection_info(street_ew, street_ns) == -1:
+            return render_template('index.html',
+                                IntersectionNameEW=street_ew + ' &',
+                                IntersectionNameNS=street_ns,
+                                intersectionError = "Intersection Not Found",
+                                display="display:none",
+                                authStatus = authString,
+                                logoutDisplay = displayLogout,
+                                addReviewStatus = addReviewString
+
+                                )
         intersectionID, comments, overallRating, visualAppeal, lightingRating, qualityRating, trafficRating, views = get_intersection_info(street_ew, street_ns)
         session['intersectionID'] = intersectionID
         return render_template('index.html',
@@ -121,6 +131,9 @@ def admin():
     if "update_submit" in request.form:
         review_number = request.form.get('reviewNumber')
         new_comment = request.form.get('updateField')
+        if update_review(review_number, new_comment) == -1:
+            return render_template('admin.html', 
+                                errorUpdateReview = "Review Does Not Exist")
         oldReview, newReview = update_review(review_number, new_comment)
         return render_template('admin.html', 
                                 reviewUpdateNew = newReview, 
@@ -128,13 +141,16 @@ def admin():
     # Delete Reviews
     if "deleteReview_submit" in request.form:
         delete_number = request.form.get("reviewNum")
-        delete_review(delete_number)
+        if delete_review(delete_number) == -1:
+            return render_template("admin.html",errorDeleteReview="Review Does Not Exist")
         return render_template('admin.html')
     
     # Delete User
     if "deleteUser_submit" in request.form:
         delete_name = request.form.get("delUsername")
         test = delete_user(delete_name)
+        if test == -1:
+            return render_template('admin.html', errorDeleteUser="User Does Not Exist")
         return render_template('admin.html', deleteInfo=test)
     return render_template('admin.html')
 
@@ -170,6 +186,8 @@ def signup():
             validCheck = user_signup(username,firstName,lastName,password)
             if validCheck == 0:
                 return redirect(url_for('login'))
+            else:
+                return render_template('adduser.html', errorAddUser = "User Already Exists")
     return render_template('adduser.html')
 
 @app.route('/login', methods = ['POST','GET'])
@@ -187,6 +205,9 @@ def login():
                 session['isAuth'] = 1
                 session['username'] = request.form['username']
                 return redirect(url_for('home'))
+            else:
+                session['isAuth'] = 0
+                return render_template("signup.html", errorLogIn = "Invalid User/Password")
             return render_template("signup.html")
         return render_template("adduser.html")
     return render_template("signup.html")

@@ -71,8 +71,8 @@ def get_intersection_info(ew_name, ns_name):
     cursor = database.cursor()
     cursor.execute(intersectionData_q)
     result = cursor.fetchall()
-    for x in result:
-        print(x)
+    if len(result) == 0:
+        return -1
     intersectionID, comments, overallRating, visualAppeal, lightingRating, qualityRating, trafficRating, views= result[0]
     return intersectionID, comments, overallRating, visualAppeal, lightingRating, qualityRating, trafficRating, views
 
@@ -116,6 +116,8 @@ def update_review(review_number, comment):
     cursor = database.cursor()
     cursor.execute(search_query)
     oldResult = cursor.fetchall()
+    if len(oldResult) == 0:
+        return -1
     cursor.execute(update_query)
     cursor.execute(search_query)
     newResult = cursor.fetchall()
@@ -128,9 +130,14 @@ def update_review(review_number, comment):
 # Deletes a review within the database.
 def delete_review(review_number):
     database = authenticate()
-    print(review_number)
-    delete_query = (f"DELETE FROM Reviews WHERE reviewNumber = {review_number}")
     cursor = database.cursor()
+    print(review_number)
+    search_query = (f"SELECT * FROM Reviews WHERE reviewNumber = {review_number}")
+    cursor.execute(search_query)
+    searchResult = cursor.fetchall()
+    if len(searchResult) == 0:
+        return -1
+    delete_query = (f"DELETE FROM Reviews WHERE reviewNumber = {review_number}")
     cursor.execute(delete_query)
     database.commit()
     database.close()
@@ -185,6 +192,11 @@ def geocode(address):
 def delete_user(username):
     database = authenticate()
     cursor = database.cursor()
+    search_query = (f"SELECT * FROM Reviews WHERE username = '{username}'")
+    cursor.execute(search_query)
+    searchResult = cursor.fetchall()
+    if len(searchResult) == 0:
+        return -1
     test = []
     cursor.callproc('GetDeleteStats',[username])
     for r in cursor.stored_results():
