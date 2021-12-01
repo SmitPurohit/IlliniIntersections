@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-</head>
-<body style="background-color: black;"></body>
+<body style="background-color: rgb(150, 150, 150)";>
    {% block content %}
-
-   <h2 style="color:white;text-align:center;"> Sign Up </h2>
+   <header>
+   <div class="header"  style="background-color: rgb(255, 255, 255)";>
+   <h1 style="text-align:center;"> Sign Up </h1>
    <a href="/">Home</a>
+   </div>
+   </header>
+</head>
    <form action = "/signup" method = "post">
          <p><input type = "text" name = "username" placeholder ="username "/></p>
          <p><input type = "text" name = "password" placeholder ="password"/></p>

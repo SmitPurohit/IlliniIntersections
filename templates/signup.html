@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-</head>
-<body style="background-color: black;">
+<body style="background-color: rgb(150, 150, 150);">
    {% block content %}
-
-   <h2 style="color:white;text-align:center;"> LOGIN </h2>
+   <header>
+   <div class="header"  style="background-color: rgb(255, 255, 255)";>
+   <h1 style="text-align:center;"> Login </h1>
    <a href="/">Home</a>
+   </div>
+   </header>
+   </head>
+
    <form action = "/login" method = "post">
          <p><input type = "text" name = "username" placeholder ="username "/></p>
          <p><input type = "text" name = "password" placeholder ="password"/></p>
