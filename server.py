@@ -54,6 +54,8 @@ def home():
         # show intersection and info given streets
         street_ew = request.form['ew']
         street_ns = request.form['ns']
+        street_ew_Coordinates = geocode(street_ew+",Champaign,Illinois")
+        street_ns_Coordinates = geocode(street_ns +",Champaign,Illinois" )
         
         intersectionID, comments, overallRating, visualAppeal, lightingRating, qualityRating, trafficRating, views = get_intersection_info(street_ew, street_ns)
         return render_template('index.html',
@@ -68,7 +70,12 @@ def home():
                                 viewURL = views,
                                 display="display:''",
                                 authStatus = authString,
-                                logoutDisplay = displayLogout
+                                logoutDisplay = displayLogout,
+                                lat = street_ew_Coordinates[0],
+                                lng = street_ew_Coordinates[1], 
+                                lat1 = street_ew_Coordinates[0],
+                                lng1 = street_ew_Coordinates[1]
+
                                 )
         
     else:

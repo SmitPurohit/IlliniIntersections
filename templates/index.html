@@ -21,6 +21,7 @@
 </head>
 
 <body id="body">
+
     
     <form action="#" method="post">
             <div id="intersectionSelection">
@@ -31,6 +32,29 @@
     </form>  
 
     <div id="reviews" style={{display}}>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARw7vsFpe6UKaUMAAkAngIVdmFBjDxIfY&callback=initMap"
+        type="text/javascript"></script>
+        <script type="text/javascript">
+        function initMap() {
+            const map0 = new google.maps.Map(document.getElementById('map0'), {
+                center:{lat: {{lat}} , lng: {{lng}}},
+                zoom: 12
+              });
+            const marker0 = new google.maps.Marker({
+            position: {lat: {{lat}} , lng: {{lng}}},
+            map: map0,
+            });
+
+            const map1 = new google.maps.Map(document.getElementById('map1'), {
+                center:{lat: {{lat1}} , lng: {{lng1}}},
+                zoom: 12
+              });
+            const marker1 = new google.maps.Marker({
+            position: {lat: {{lat1}} , lng: {{lng1}}},
+            map: map1,
+            });
+        }
+        </script>
         <h2 id="intersectionName">
            {{IntersectionNameEW}} {{IntersectionNameNS}}
         </h2>
@@ -83,7 +107,18 @@
         </h4>
         <img src={{viewURL}} alt="view" id="view">
         <h4>
-            Comments
+            Google Map
+        </h4>
+        <h4>
+            Street EW
+        </h4>
+        <div id="map0" style="width:100%; height:500px;"></div> 
+        <h4>
+            Street NS
+        </h4> 
+        <div id="map1" style="width:100%; height:500px;"></div>  
+        <h4>    
+        Comments
         </h4>
         <p id="Comments">
             {{comments}}
